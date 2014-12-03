@@ -1,0 +1,21 @@
+{
+  "development": {
+    "db": {
+      "path" : "mongodb://localhost/comic-quiz-dev"
+    }
+  },
+
+  "production": {
+    "db": {
+      "path" : "mongodb://localhost/comic-quiz"
+    }
+  },
+
+  "test": {
+    "db": {
+      "path" : "mongodb://localhost/comic-quiz-test"
+    }
+  }
+
+}
+
