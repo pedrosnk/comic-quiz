@@ -1,11 +1,10 @@
-
 path = require 'path'
 Answer = require path.join(__dirname, "../../app/models/answer")
 Question = require path.join(__dirname, "../../app/models/question")
 
 describe 'Question', ->
 
-  beforeEach (done) ->
+  before (done) ->
     Question.remove().exec ->
       done()
 
@@ -27,8 +26,18 @@ describe 'Question', ->
       text: 'Generic question', universe: 'MARVEL', type: 'correctOne',
     question.save (err) ->
       (err == null).should.be.ok
-      Question.findOne text: question.text, (err, questionRecovered) ->
-        questionRecovered.id.should.be.equal question.id
+      Question.findOne _id: question.id, (err, questionRecovered) ->
+        questionRecovered.text.should.be.equal question.text
+        done()
+
+  it 'fetchs a question by it meta datas properly', (done) ->
+    question = new Question
+      text: 'Your neighborhood friend', type: 'correctOne',
+      meta:
+        publisher: 'MARVEL', character: 'spider-man'
+    question.save (err) ->
+      Question.findOne 'meta.publisher': 'MARVEL', 'meta.character': 'spider-man', (err, questionRecovered) ->
+        question.id.should.be.equal questionRecovered.id
         done()
 
 
