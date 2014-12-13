@@ -8,7 +8,7 @@ describe 'Question', ->
     Question.remove().exec ->
       done()
 
-  it 'creates a Question properly', (done) ->
+  it 'Creates a Question properly', (done) ->
     answer1 = new Answer text: 'Cyclo', correct: false
     answer2 = new Answer text: 'Wolvie', correct: true
     answer3 = new Answer text: 'Star', correct: false
@@ -21,7 +21,7 @@ describe 'Question', ->
       (err == null).should.be.ok
       done()
 
-  it 'recovers the created answer', (done) ->
+  it 'Recovers the created answer', (done) ->
     question = new Question
       text: 'Generic question', universe: 'MARVEL', type: 'correctOne',
     question.save (err) ->
@@ -30,7 +30,7 @@ describe 'Question', ->
         questionRecovered.text.should.be.equal question.text
         done()
 
-  it 'fetchs a question by it meta datas properly', (done) ->
+  it 'Fetchs a question by it meta datas properly', (done) ->
     question = new Question
       text: 'Your neighborhood friend', type: 'correctOne',
       meta:
