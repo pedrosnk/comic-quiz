@@ -1,8 +1,8 @@
 
+path = require 'path'
 express = require 'express'
 app = express()
 
-app.get '/questions', (req, res) ->
-  res.status(200).send([])
+require(path.join(__dirname, 'routes'))(app)
 
 module.exports = app
