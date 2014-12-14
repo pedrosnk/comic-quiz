@@ -5,8 +5,10 @@ Question = require path.join(__dirname, "../../app/models/question")
 describe 'Basic CRUD for Question', ->
 
   before (done) ->
-    Question.remove().exec ->
-      done()
+    Question.remove().exec -> done()
+
+  after (done) ->
+    Question.remove().exec -> done()
 
   it 'Creates a Question properly', (done) ->
     answer1 = new Answer text: 'Cyclo', correct: false
