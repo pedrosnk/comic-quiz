@@ -19,7 +19,7 @@ describe 'Basic CRUD for Question', ->
       text: { en: 'Whos the best there is' }, universe: 'MARVEL', type: 'correctOne',
       answers: [answer1, answer2, answer3]
 
-    question.save (err) ->
+    question.save (err, question) ->
       (err == null).should.be.ok
       done()
 

@@ -41,3 +41,32 @@ describe 'Question Routes', ->
           throw err if (err)
           done()
 
+  describe 'Creates the Question', ->
+
+    questionBody =
+      text: { en: 'This is a question' }
+      type: 'correctOne'
+      meta: { universe: 'MARVEL' }
+
+    after (done) ->
+      Question.remove().exec -> done()
+
+    it 'Returns a 201 status code for created question', (done) ->
+      request(app)
+        .post '/questions'
+        .set 'Content-Type', 'application/json'
+        .send questionBody
+        .expect 'Content-Type', /json/
+        .expect 201, done
+
+    it 'Creates a Question by sending a json object', (done) ->
+      request(app)
+        .post '/questions'
+        .send questionBody
+        .end (err) ->
+          throw err if err
+          Question.findOne text: { en: questionBody.text.en }, (err, question) ->
+            (question == null).should.not.be.ok
+            done()
+
+
