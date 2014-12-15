@@ -69,4 +69,16 @@ describe 'Question Routes', ->
             (question == null).should.not.be.ok
             done()
 
+    it 'Creates a Question by sending a encoded url form', (done) ->
+      urlEncoded = "[text][en]=#{questionBody.text.en}&"
+      urlEncoded += "type=#{questionBody.type}&[meta][universe]=#{questionBody.meta.universe}"
+      request(app)
+        .post '/questions'
+        .send urlEncoded
+        .end (err) ->
+          throw err if err
+          Question.findOne text: { en: questionBody.text.en }, (err, question) ->
+            (question == null).should.not.be.ok
+            done()
+
 
