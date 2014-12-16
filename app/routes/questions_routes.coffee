@@ -12,9 +12,14 @@ questions_router.route('/')
   .post (req, res) ->
     question = new Question req.body
     question.save (err) ->
-      unless err
-        res.status(201).send { "result": "ok" }
-      else
-        res.status(201).send { "result": "fail" }
+      throw err if err
+      res.status(201).send { "result": "ok" }
+
+questions_router.route('/:id')
+  .get (req, res) ->
+    Question.findOne _id: req.params.id, (err, question) ->
+      throw err if err
+      res.status(200).send question
+
 
 module.exports = questions_router

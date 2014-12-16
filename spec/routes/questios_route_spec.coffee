@@ -82,3 +82,53 @@ describe 'Question Routes', ->
             done()
 
 
+  describe 'Deletes a Question', () ->
+    questionToBeDeleted = null
+    before (done) ->
+      Question.create
+        text: { en: 'This is a question' }
+        type: 'correctOne'
+        (err, question) ->
+          throw err if err
+          questionToBeDeleted = question
+          done()
+
+    after (done) ->
+      Question.remove().exec -> done()
+
+    it 'Removes the question properly'
+
+  describe 'GET a Question', ->
+    questionToBeShow = null
+
+    before (done) ->
+      Question.create
+        text: { en: 'This is a question' }
+        type: 'correctOne'
+        (err, question) ->
+          throw err if err
+          questionToBeShow = question
+          done()
+
+    after (done) ->
+      Question.remove().exec -> done()
+
+
+    it 'Returns a 200 and Content json', (done) ->
+      request(app)
+        .get "/questions/#{questionToBeShow.id}"
+        .set 'Accepts', 'application/json'
+        .expect 'Content-Type', /json/
+        .expect 200, done
+
+    it 'Retreives the json from the Question properly', (done) ->
+      request(app)
+        .get "/questions/#{questionToBeShow.id}"
+        .set 'Accepts', 'application/json'
+        .expect (res) ->
+          res.body.text.en.should.be.equal questionToBeShow.text.en
+          false
+        .end (err) ->
+          throw err if err
+          done()
+
