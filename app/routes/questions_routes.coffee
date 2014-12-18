@@ -25,6 +25,8 @@ questions_router.route('/:id')
       throw err if err
       res.status(200).send {"result": "ok"}
   .patch (req, res) ->
-    res.sendStatus(200)
+    Question.findOneAndUpdate _id: req.params.id, req.body, (err) ->
+      throw err if err
+      res.status(200).send { "result": "ok" }
 
 module.exports = questions_router

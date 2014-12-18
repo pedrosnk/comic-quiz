@@ -147,7 +147,7 @@ describe 'Question Routes', ->
 
   describe 'Update a Question', ->
     questionToBeUpdated = null
-    before (done) ->
+    beforeEach (done) ->
       Question.create
         text: { en: 'This is a question' }
         type: 'correctOne'
@@ -163,4 +163,19 @@ describe 'Question Routes', ->
       request(app)
         .patch "/questions/#{questionToBeUpdated.id}"
         .expect 200, done
+
+    it 'Updates a question via API', (done) ->
+      updateText = { text: en: 'This is an updated question' }
+      request(app)
+        .patch "/questions/#{questionToBeUpdated.id}"
+        .set 'Content-Type', 'application/json'
+        .send updateText
+        .end (err) ->
+          throw err if err
+          Question.findOne _id: questionToBeUpdated.id, (err, question) ->
+            throw err if err
+            question.text.en.should.be.equal updateText.text.en
+            done()
+
+
 
