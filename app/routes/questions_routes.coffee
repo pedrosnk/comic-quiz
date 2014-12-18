@@ -20,6 +20,11 @@ questions_router.route('/:id')
     Question.findOne _id: req.params.id, (err, question) ->
       throw err if err
       res.status(200).send question
-
+  .delete (req, res) ->
+    Question.remove _id: req.params.id, (err) ->
+      throw err if err
+      res.status(200).send {"result": "ok"}
+  .patch (req, res) ->
+    res.sendStatus(200)
 
 module.exports = questions_router

@@ -84,7 +84,7 @@ describe 'Question Routes', ->
 
   describe 'Deletes a Question', () ->
     questionToBeDeleted = null
-    before (done) ->
+    beforeEach (done) ->
       Question.create
         text: { en: 'This is a question' }
         type: 'correctOne'
@@ -96,7 +96,20 @@ describe 'Question Routes', ->
     after (done) ->
       Question.remove().exec -> done()
 
-    it 'Removes the question properly'
+    it 'Send a delete method and returns a 200', (done) ->
+      request(app)
+        .delete "/questions/#{questionToBeDeleted.id}"
+        .expect 200, done
+
+    it 'Removes the question properly', (done) ->
+      request(app)
+        .delete "/questions/#{questionToBeDeleted.id}"
+        .expect (res) ->
+          res.body.result.should.be.ok
+          false
+        .end (err) ->
+          throw err if err
+          done()
 
   describe 'GET a Question', ->
     questionToBeShow = null
@@ -131,4 +144,23 @@ describe 'Question Routes', ->
         .end (err) ->
           throw err if err
           done()
+
+  describe 'Update a Question', ->
+    questionToBeUpdated = null
+    before (done) ->
+      Question.create
+        text: { en: 'This is a question' }
+        type: 'correctOne'
+        (err, question) ->
+          throw err if err
+          questionToBeUpdated = question
+          done()
+
+    after (done) ->
+      Question.remove().exec -> done()
+
+    it 'Returns an 200 status code for update via patch', (done) ->
+      request(app)
+        .patch "/questions/#{questionToBeUpdated.id}"
+        .expect 200, done
 
