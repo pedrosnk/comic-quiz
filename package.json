@@ -22,7 +22,6 @@
     "supertest": "~ 0.15.0"
   },
   "scripts": {
-
     "prestart": "bower install",
     "pretest": "bower install",
 
