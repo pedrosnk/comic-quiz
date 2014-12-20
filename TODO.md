@@ -4,7 +4,7 @@ TODO list
 
 - [x] Create integration with expressjs
 - [x] Create API for Question CRUD
-- [ ] Simple bootstrap integration
+- [x] Simple bootstrap integration
 - [ ] Create an structure to see Question via html interface
 - [ ] Integrate morgan
 - [ ] Integrate new relic

@@ -9,9 +9,9 @@ describe 'Question Routes', ->
   describe 'Fetchs Questions via http', ->
     before (done) ->
       Question.create [
-        { text: { en: 'question1' } },
-        { text: { en: 'question2' } },
-        { text: { en: 'question3' } },
+        { text: { en: 'question1' }, type: 'correctOne' },
+        { text: { en: 'question2' }, type: 'correctOne' },
+        { text: { en: 'question3' }, type: 'correctOne' },
       ], (err) ->
         throw err if err
         done()

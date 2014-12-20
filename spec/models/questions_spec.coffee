@@ -49,3 +49,17 @@ describe 'I18n Operations for Questions', ->
     question.iText('pt_BR').should.be.equal 'Quem é o parceiro do Batman'
     question.iText('en').should.be.equal 'Who is Batman`s sidekick'
 
+describe 'Question validations', ->
+
+  it 'requires at least one text field' , (done)->
+    question = new Question type: 'correctOne', meta: { publisher: 'MARVEL' }, text: {}
+    question.validate (err) ->
+      (!err).should.not.be.ok
+      done()
+
+  it 'requires type field', (done) ->
+    question = new Question meta: { publisher: 'MARVEL' }, text: {}
+    question.validate (err) ->
+      (!err).should.not.be.ok
+      done()
+
