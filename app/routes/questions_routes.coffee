@@ -6,8 +6,11 @@ questions_router = express.Router();
 
 questions_router.route('/')
   .get (req, res) ->
-    Question.find (err, questions) ->
-      res.status(200).send(questions)
+    if req.accepts('json') && !req.accepts('html')
+      Question.find (err, questions) ->
+        res.status(200).send(questions)
+    else
+      res.render 'questions/index'
 
   .post (req, res) ->
     question = new Question req.body
@@ -15,6 +18,8 @@ questions_router.route('/')
       throw err if err
       res.status(201).send { "result": "ok" }
 
+questions_router.get '/new', (req, res) ->
+  res.render 'questions/new'
 questions_router.route('/:id')
   .get (req, res) ->
     Question.findOne _id: req.params.id, (err, question) ->

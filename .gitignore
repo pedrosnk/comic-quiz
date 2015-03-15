@@ -3,4 +3,5 @@ node_modules/
 
 *.swp
 *.swo
-public/bower_modules/
+public/bower_components/
+*.swn

@@ -10,6 +10,7 @@ answerSchema = mongoose.Schema
   correct: Boolean,
   { id: false, _id: false }
 
+
 # Method That receives a String of the language id and returns
 # the actual text for that answer
 # @param [String] lang key for the language
