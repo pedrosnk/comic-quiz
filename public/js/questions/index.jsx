@@ -5,8 +5,13 @@ var QuestionsList = React.createClass({
       headers: { Accept: 'application/json' } }
     )
     .success(function(data){
-      console.log(data);
-    });
+      this.setState({questions: data});
+    }.bind(this));
+  },
+  getInitialState: function(){
+    return {
+      questions : []
+    };
   },
   render: function(){
     var template =
@@ -20,8 +25,15 @@ var QuestionsList = React.createClass({
             </tr>
           </thead>
           <tbody>
-            <tr>
-            </tr>
+            {this.state.questions.map(function(question){
+              return <tr key={question._id}>
+                       <td>{question.text.en}</td>
+                       <td className='btn-group'>
+                         <a className='btn btn-default btn-sm'>Edit</a>
+                         <a className='btn btn-danger btn-sm'>Delete</a>
+                       </td>
+                     </tr>
+            })}
           </tbody>
         </table>
       </div>

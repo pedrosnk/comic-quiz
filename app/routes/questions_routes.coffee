@@ -16,7 +16,7 @@ questions_router.route('/')
     question = new Question req.body
     question.save (err) ->
       throw err if err
-      res.status(201).send { "result": "ok" }
+      res.redirect 301, '/questions'
 
 questions_router.get '/new', (req, res) ->
   res.render 'questions/new'
