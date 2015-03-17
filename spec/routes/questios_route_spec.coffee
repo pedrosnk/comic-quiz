@@ -48,16 +48,25 @@ describe 'Question Routes', ->
       type: 'correctOne'
       meta: { universe: 'MARVEL' }
 
+    questionBodyEncoded =
+      "[text][en]=This%20is%20a%20question&type=correctOne&[meta][universe]=MARVEL"
     after (done) ->
       Question.remove().exec -> done()
 
-    it 'Returns a 201 status code for created question', (done) ->
+    it 'Returns a 201 status code for created question via json', (done) ->
       request(app)
         .post '/questions'
         .set 'Content-Type', 'application/json'
         .send questionBody
         .expect 'Content-Type', /json/
         .expect 201, done
+
+    it 'Returns a 301 to redirect when the content is a form-encoded', (done) ->
+      request(app)
+        .post '/questions'
+        .send questionBodyEncoded
+        .expect 'location', '/questions'
+        .expect 301, done
 
     it 'Creates a Question by sending a json object', (done) ->
       request(app)
