@@ -1,5 +1,14 @@
 
 var AnswerField = React.createClass({
+  uncheckOthers: function(ev){
+    if(ev.target.checked){
+      $('.answer-correct-field').each(function(i, elem){
+        if(elem !== ev.target){
+          elem.checked = false;
+        }
+      });
+    }
+  },
   render: function(){
     var inputNameText = '[answers]['+this.props.answerNum+'][text][en]'
     var inputNameCorrect = '[answers]['+this.props.answerNum+'][correct]'
@@ -9,7 +18,8 @@ var AnswerField = React.createClass({
         <input type='text' className='form-control' name={inputNameText} />
         <div className='checkbox'>
           <label>
-            <input type='checkbox' className='answer-correct-field' name={inputNameCorrect} /> Correct Answer
+            <input type='checkbox' onChange={this.uncheckOthers}
+              className='answer-correct-field' name={inputNameCorrect} /> Correct Answer
           </label>
         </div>
       </div>
