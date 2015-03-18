@@ -1,12 +1,23 @@
 
 var QuestionsList = React.createClass({
-  componentDidMount: function(){
+  deleteQuestion: function(e){
+    var questionId = e.target.attributes['data-question-id'].value;
+    $.ajax({  url: '/questions/' + questionId,
+      method: 'delete',
+      headers: { Accept: 'application/json' } }
+    ).success(function(data){
+      this.loadQuestions();
+    }.bind(this));
+  },
+  loadQuestions: function(){
     $.ajax({ 'method' : 'GET',
       headers: { Accept: 'application/json' } }
-    )
-    .success(function(data){
+    ).success(function(data){
       this.setState({questions: data});
     }.bind(this));
+  },
+  componentDidMount: function(){
+    this.loadQuestions();
   },
   getInitialState: function(){
     return {
@@ -30,10 +41,11 @@ var QuestionsList = React.createClass({
                        <td>{question.text.en}</td>
                        <td className='btn-group'>
                          <a className='btn btn-default btn-sm'>Edit</a>
-                         <a className='btn btn-danger btn-sm'>Delete</a>
+                         <a className='btn btn-danger btn-sm' data-question-id={question._id}
+                           onClick={this.deleteQuestion}>Delete</a>
                        </td>
                      </tr>
-            })}
+            }.bind(this))}
           </tbody>
         </table>
       </div>

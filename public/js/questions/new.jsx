@@ -29,34 +29,47 @@ var AnswerField = React.createClass({
 
 var NewQuestion = React.createClass({
   submitForm : function(e) {
-//    e.preventDefault();
-//$.post('/questions', this..serialize())
+    if($('.answer-correct-field:checked').length === 0){
+      e.preventDefault();
+    }
   },
   render : function(){
-    var answers = _.map([0,1,2, 3], function(n){
+    var answers = _.map([0,1,2,3], function(n){
       return <AnswerField key={n} answerNum={n} />
     });
 
     var template =
-      <div className='col-lg-6'>
-        <h2>New Question</h2>
-        <form className='form' method='POST' action='/questions' >
+      <form className='form' onSubmit={this.submitForm} method='POST' action='/questions' >
+        <div className='row'>
+          <h2>New Question</h2>
+        </div>
+        <div className='col-lg-6'>
           <div className='form-group'>
             <label htmlFor='textField'>Text</label>
-            <input id='textField' className='form-control' name='[text][en]' />
+            <textarea id='textField' className='form-control' name='[text][en]' />
           </div>
           <div className='form-group'>
             <label htmlFor='typeField'>Type</label>
-            <input id='typeField' className='form-control' name='type' />
+            <input id='typeField' className='form-control' name='type' value='correctOne' readOnly/>
           </div>
           <div>
             {answers}
           </div>
+
           <div className='form-group'>
             <button type='submit' className='btn btn-primary' >New</button>
           </div>
-        </form>
-      </div>
+        </div>
+        <div className='col-lg-6'>
+          <div className='form-group'>
+            <label>Publisher</label>
+            <select className='form-control' name='[meta][publisher]'>
+              <option value='marvel'>Marvel</option>
+              <option value='dc'>DC</option>
+            </select>
+          </div>
+        </div>
+      </form>
     return template;
   }
 });
