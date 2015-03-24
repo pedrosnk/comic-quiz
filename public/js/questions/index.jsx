@@ -1,13 +1,15 @@
 
 var QuestionsList = React.createClass({
   deleteQuestion: function(e){
-    var questionId = e.target.attributes['data-question-id'].value;
-    $.ajax({  url: '/questions/' + questionId,
-      method: 'delete',
-      headers: { Accept: 'application/json' } }
-    ).success(function(data){
-      this.loadQuestions();
-    }.bind(this));
+    if( confirm('Are you sure?') ){
+      var questionId = e.target.attributes['data-question-id'].value;
+      $.ajax({  url: '/questions/' + questionId,
+        method: 'delete',
+        headers: { Accept: 'application/json' } }
+      ).success(function(data){
+        this.loadQuestions();
+      }.bind(this));
+    }
   },
   loadQuestions: function(){
     $.ajax({ 'method' : 'GET',
